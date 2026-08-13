@@ -1029,68 +1029,69 @@ console.log(r1);
 //closure
 
 //Create a function:
-function createCounter() {
-    let count = 0;
+// function createCounter() {
+//     let count = 0;
 
-    // return a function
-    return function(){
-        count++;
-        return count;
-    }
-}
-let counter = createCounter();
+//     // return a function
+//     return function(){
+//         count++;
+//         return count;
+//     }
+// }
+// let counter = createCounter();
 
-console.log(counter());
-console.log(counter());
+// console.log(counter());
+// console.log(counter());
 
-console.log(counter());
+// console.log(counter());
 
-//Q1 — Easy
-//Create a closure that starts with score = 0.
-//Every time you call the returned function, increase the score by 10.
+// //Q1 — Easy
+// //Create a closure that starts with score = 0.
+// //Every time you call the returned function, increase the score by 10.
 
-function creatascore() {
-    let score=0;
-     return function(){
-       score +=10;
-         return score;
-     }
-}
+// function creatascore() {
+//     let score=0;
+//      return function(){
+//        score +=10;
+//          return score;
+//      }
+// }
 
-let score=creatascore();
-console.log(score());
-console.log(score());
-console.log(score());
+// let score=creatascore();
+// console.log(score());
+// console.log(score());
+// console.log(score());
 
-//Q2 ⭐
-//Create:
-function createCounter(start1) {
-    // create a variable using start
-    // return a function that increases it by 1
-     let count1=start1;
-    return function(){
-        count++;
-        return count;
-    }
-}
-let counter1 =creatascore(5);
-console.log(counter1());
-console.log(counter1());
-console.log(counter1());
+// //Q2 ⭐
+// //Create:
+// function createCounter(start1) {
+//     // create a variable using start
+//     // return a function that increases it by 1
+//      let count1=start1;
+//     return function(){
+//         count++;
+//         return count;
+//     }
+// }
+// let counter1 =creatascore(5);
+// console.log(counter1());
+// console.log(counter1());
+// console.log(counter1());
 
-//Q3 🔥 Challenge
-//Create a closure for a bank balance:
-function createBalance(amount) {
-    // return a function
-  let balance=amount;
-    return function(){
-     balance++;
-       return balance;
+// //Q3 🔥 Challenge
+// //Create a closure for a bank balance:
+// function createBalance(amount) {
+//     // return a function
+//   let balance=amount;
+//     return function(){
+//      balance++;
+//        return balance;
 
-    }
-}
-let balance=createBalance(1000);
-console.log(balance());
-console.log(balance(500));
-console.log(balance(-200));
+//     }
+// }
+// let balance=createBalance(1000);
+// console.log(balance());
+// console.log(balance(500));
+// console.log(balance(-200));
+
 
