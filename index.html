@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <script>
+const fs = require("fs");
+const {
+  Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
+  Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle,
+  ImageRun, PageBreak, TableOfContents, Header, Footer, PageNumber,
+  LevelFormat, convertInchesToTwip, VerticalAlign
+} = require("docx");
+
+const IMG = "/home/claude/nyaya/images";
+const BLUE = "2E75B6";
+const DARKBLUE = "1F4E79";
+const GREY = "595959";
+
+function h1(text) {
+  return new Paragraph({
+    heading: HeadingLevel.HEADING_1,
+    spacing: { before: 300, after: 160 },
+    children: [new TextRun({ text, color: DARKBLUE, bold: true })],
+  });
+}
+function h2(text) {
+  return new Paragraph({
+    heading: HeadingLevel.HEADING_2,
+    spacing: { before: 220, after: 120 },
+    children: [new TextRun({ text, color: BLUE, bold: true })],
+  });
+}
+function p(text, opts = {}) {
+  return new Paragraph({
+    spacing: { after: 160, line: 276 },
+    alignment: AlignmentType.JUSTIFIED,
+    children: [new TextRun({ text, ...opts })],
+  });
+}
+function bullet(text) {
+  return new Paragraph({
+    numbering: { reference: "bullets", level: 0 },
+    spacing: { after: 80 },
+    children: [new TextRun({ text })],
+  });
+}
+function caption(text) {
+  return new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 80, after: 240 },
+    children: [new TextRun({ text, italics: true, size: 20, color: GREY })],
+  });
+}
+function imageParagraph(file, width, height) {
+  return new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 160, after: 60 },
+    children: [
+      new ImageRun({
+        type: "png",
+        data: fs.readFileSync(`${IMG}/${file}`),
+        transformation: { width, height },
+      }),
+    ],
+  });
+}
+function pageBreak() {
+  return new Paragraph({ children: [new PageBreak()] });
+}
+
+function tableCell(text, { header = false, width, shade } = {}) {
+  return new TableCell({
+    width: { size: width, type: WidthType.DXA },
+    shading: shade ? { type: ShadingType.CLEAR, fill: shade } : undefined,
+    verticalAlign: VerticalAlign.CENTER,
+    margins: { top: 100, bottom: 100, left: 120, right: 120 },
+    children: [
+      new Paragraph({
+        children: [new TextRun({ text, bold: header, size: header ? 20 : 20 })],
+      }),
+    ],
+  });
+}
+
+// ---------------------------------------------------------------
+// Title page
+// ---------------------------------------------------------------
+const titlePage = [
+  new Paragraph({ spacing: { before: 1600 }, children: [] }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    children: [new TextRun({ text: "Indian Knowledge Systems (IKS)", bold: true, size: 30, color: DARKBLUE })],
+  }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 200, after: 400 },
+    children: [new TextRun({ text: "Group Assignment", bold: true, size: 26, color: BLUE })],
+  }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 400, after: 200 },
+    children: [new TextRun({
+      text: "Observation, Inference, Debate, and Evidence in the Nyaya Tradition: Foundations of Indian Logic and Their Relevance to Present-Day Reasoning",
+      bold: true, size: 26,
+    })],
+  }),
+  new Paragraph({ spacing: { before: 600 }, children: [] }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 60 },
+    children: [new TextRun({ text: "Group Name: IKS Study Group", size: 22 })],
+  }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 60 },
+    children: [new TextRun({ text: "Members: Member 1 - Member 2 - Member 3 - Member 4 - Member 5 - Member 6", size: 22 })],
+  }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 60 },
+    children: [new TextRun({ text: "Course: Indian Knowledge Systems", size: 22 })],
+  }),
+  new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 400 },
+    children: [new TextRun({ text: "Date: 27 July 2026", size: 22 })],
+  }),
+];
+
+// ---------------------------------------------------------------
+// Table of Contents
+// ---------------------------------------------------------------
+const toc = [
+  h1("Table of Contents"),
+  new TableOfContents("Table of Contents", {
+    hyperlink: true,
+    headingStyleRange: "1-2",
+  }),
+  pageBreak(),
+];
+
+// ---------------------------------------------------------------
+// Chapter 1
+// ---------------------------------------------------------------
+const ch1 = [
+  h1("Chapter 1: Introduction & Background"),
+  h2("1.1 Overview of the Topic"),
+  p("The Nyaya school is one of the six classical systems (darshanas) of Indian philosophy, and it is, above all, a system of logic and epistemology. Where other darshanas concentrate on metaphysics or liberation, Nyaya asks a more procedural question: how can a person know, with justified confidence, that a claim is true? Its answer rests on four accepted means of valid knowledge, or pramanas — perception, inference, comparison, and testimony — and on a disciplined method of public debate for testing claims against counter-argument. This assignment studies these ideas as they were originally formulated, and then asks a second question that the classical texts never had to face: what do observation, inference, debate, and evidence look like when applied to today's problems of data analysis, misinformation, ethical decision-making, and the design of digital systems."),
+  p("Indian logical thought did not emerge from religious doctrine alone; it grew out of a living tradition of formal debate (vada) conducted in royal courts, monasteries, and public assemblies, where a thinker's position had to survive cross-examination by a trained opponent. This adversarial, evidence-seeking culture produced a set of reasoning tools that are strikingly procedural and, in places, close in spirit to modern standards of argument evaluation."),
+  h2("1.2 Historical Context and Evolution"),
+  p("The foundational text of the school is the Nyaya Sutra, attributed to the sage Gautama (also called Akshapada), composed in the early centuries of the common era. It set out sixteen categories (padarthas) needed to conduct sound philosophical debate, beginning with the four pramanas and including the structure of a valid syllogism, the varieties of debate, and a catalogue of reasoning errors and fallacies (hetvabhasa) to be avoided. Successive commentators — Vatsyayana, Uddyotakara, and Vachaspati Mishra among them — refined and defended these ideas against rival schools, particularly the Buddhist logicians, over several centuries of sustained philosophical exchange."),
+  p("From the twelfth century onward, a new phase known as Navya-Nyaya (New Logic) developed in Bengal and Mithila under scholars such as Gangesha Upadhyaya. Navya-Nyaya introduced a highly technical, almost formal-logic-like vocabulary for defining terms with precision and eliminating ambiguity in argument — an effort comparable in spirit, though not in notation, to the development of formal logic in other traditions. This technical apparatus was still being taught in traditional centres of Sanskrit learning well into the modern period, even as colonial-era education increasingly prioritised European curricula."),
+  imageParagraph("fig2_framework.png", 5800000, 1670000),
+  caption("Figure 1: Conceptual Framework — Nyaya Logic to Sound Reasoning"),
+  h2("1.3 Problem Statement and Significance"),
+  p("Contemporary discussions of critical thinking, data literacy, and AI ethics often draw on Western philosophy of science and Western logic while overlooking that India developed its own rigorous, homegrown framework for evaluating claims centuries earlier. Treating Nyaya as a historical curiosity rather than a working method overlooks a resource that speaks directly to present-day problems: distinguishing an observed fact from an inferred one, tracing an inference back to defensible evidence, and subjecting a conclusion to structured challenge before accepting it. This assignment argues that these are not merely antiquarian concerns — they are close cousins of problems faced today in verifying claims made from data, detecting fabricated or misleading information online, weighing competing ethical considerations, and building digital systems whose decisions can be explained and audited."),
+  new Table({
+    width: { size: 9350, type: WidthType.DXA },
+    columnWidths: [1870, 1870, 1870, 1870, 1870],
+    rows: [
+      new TableRow({
+        tableHeader: true,
+        children: [
+          tableCell("Pramana / Concept", { header: true, width: 1870, shade: "DCE6F1" }),
+          tableCell("Sanskrit Term", { header: true, width: 1870, shade: "DCE6F1" }),
+          tableCell("English Sense", { header: true, width: 1870, shade: "DCE6F1" }),
+          tableCell("Role in Reasoning", { header: true, width: 1870, shade: "DCE6F1" }),
+          tableCell("Nearest Modern Analogue", { header: true, width: 1870, shade: "DCE6F1" }),
+        ],
+      }),
+      new TableRow({ children: [
+        tableCell("Pratyaksha", { width: 1870 }), tableCell("Perception", { width: 1870 }),
+        tableCell("Direct sense contact", { width: 1870 }), tableCell("Grounds the starting facts", { width: 1870 }),
+        tableCell("Raw / observed data", { width: 1870 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Anumana", { width: 1870 }), tableCell("Inference", { width: 1870 }),
+        tableCell("Reasoning from a sign to a conclusion", { width: 1870 }), tableCell("Builds justified new knowledge", { width: 1870 }),
+        tableCell("Statistical / logical inference", { width: 1870 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Upamana", { width: 1870 }), tableCell("Comparison", { width: 1870 }),
+        tableCell("Knowledge via analogy", { width: 1870 }), tableCell("Extends concepts to new cases", { width: 1870 }),
+        tableCell("Analogical / case-based reasoning", { width: 1870 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Shabda", { width: 1870 }), tableCell("Testimony", { width: 1870 }),
+        tableCell("Knowledge from a reliable source", { width: 1870 }), tableCell("Admits secondhand knowledge with checks", { width: 1870 }),
+        tableCell("Source credibility assessment", { width: 1870 }),
+      ]}),
+    ],
+  }),
+  caption("Table 1: The Four Pramanas and Their Modern Analogues"),
+  pageBreak(),
+];
+
+// ---------------------------------------------------------------
+// Chapter 2
+// ---------------------------------------------------------------
+const ch2 = [
+  h1("Chapter 2: Literature Review & Theoretical Framework"),
+  h2("2.1 Review of Existing Research and Key Studies"),
+  p("Modern scholarship on Nyaya logic spans two broad strands. Indological and philological studies, working from Sanskrit editions of the Nyaya Sutra and its commentaries, have reconstructed the school's theory of inference and its taxonomy of fallacies in considerable technical detail. A second, more recent strand, situated at the intersection of philosophy and cognitive or computer science, has examined whether Navya-Nyaya's precise definitional method can inform formal knowledge representation, arguing that its structured treatment of relations between terms anticipates some concerns of modern logic and artificial intelligence research."),
+  p("Comparative studies placing Nyaya alongside Aristotelian syllogism and later Western epistemology have generally concluded that while the two traditions differ in notation and metaphysical commitments, both converge on similar practical concerns: avoiding circular reasoning, distinguishing necessary from merely coincidental connections, and requiring that a general claim be supported by a genuine instance (drishtanta) rather than assumed."),
+  h2("2.2 Key Theories and Models Related to the Topic"),
+  p("Two elements of Nyaya theory are central to this assignment. The first is the five-membered syllogism (panchavayava), the classical structure for a complete, publicly defensible argument: pratijna (the thesis being proposed), hetu (the reason or evidence offered), udaharana (a general rule illustrated by a concrete example), upanaya (application of that rule to the case at hand), and nigamana (the conclusion re-stated as established). Unlike a bare logical syllogism, this structure insists that an argument be anchored in an observable example before it is generalised, which mirrors the modern requirement that a claim be supported by demonstrable evidence rather than assertion alone."),
+  p("The second element is the doctrine of hetvabhasa, or fallacious reasons — a systematic catalogue of the ways an inference can go wrong, including the reason being absent in the example cited, being present in cases where the conclusion is false, or being self-contradictory. This anticipates, in classical form, the modern practice of naming and checking for specific logical fallacies before accepting an argument."),
+  imageParagraph("fig3_thematic_map.png", 5600000, 3730000),
+  caption("Figure 2: Thematic Map — Pillars of Nyaya Reasoning"),
+  h2("2.3 Current Trends and Debates"),
+  p("Interest in Nyaya logic has grown in two overlapping present-day conversations. One is within Indian philosophy departments and IKS-focused curricula, where scholars argue for teaching Nyaya alongside Western logic as an independently rigorous system rather than as a footnote to it. The other is within AI and information-science circles exploring non-Western epistemological models for tasks such as explainable reasoning, argument mining, and evaluating source reliability, where Nyaya's explicit, step-based structure is seen as a candidate framework precisely because it separates the observation, the rule, the application, and the conclusion into distinct, checkable stages."),
+  h2("2.4 Research Gaps Identified"),
+  bullet("Limited systematic translation of Navya-Nyaya's technical vocabulary into terms usable by non-specialist readers, including students and technologists."),
+  bullet("Sparse practical case studies applying the panchavayava structure directly to modern problems such as fact-checking workflows or model-explanation formats."),
+  bullet("Little empirical work testing whether training in classical Nyaya-style reasoning measurably improves everyday critical-thinking performance."),
+  pageBreak(),
+];
+
+// ---------------------------------------------------------------
+// Chapter 3
+// ---------------------------------------------------------------
+const ch3 = [
+  h1("Chapter 3: Methodology & Approach"),
+  h2("3.1 Research Design and Approach"),
+  p("This study uses a qualitative, conceptual-analysis design. Core ideas from the Nyaya tradition — observation, inference, debate, and evidence — are first described in their classical form and then mapped, concept by concept, onto four present-day domains: data analysis, fake-news verification, ethical decision-making, and responsible digital-system design. This design suits an undergraduate group assignment aimed at conceptual understanding and practical application rather than original textual scholarship."),
+  h2("3.2 Data Collection Methods"),
+  p("Material was drawn entirely from secondary sources: English-language scholarship and translations of the Nyaya Sutra and its major commentaries, comparative studies of Indian and Western logic, and general references on critical thinking, information verification, and applied ethics. No primary textual translation, fieldwork, or human-subject data collection was undertaken, so no ethical clearance beyond standard academic citation practice was required."),
+  h2("3.3 Tools, Technologies, or Frameworks Used"),
+  bullet("Comparative framework: classical pramana theory mapped against modern equivalents (data verification, statistical inference, source credibility, peer review)."),
+  bullet("SWOT analysis for structured evaluation of Nyaya reasoning in present-day application."),
+  bullet("Weighted decision matrix to synthesise the comparison into an indicative score."),
+  imageParagraph("fig4_methodology.png", 6300000, 1260000),
+  caption("Figure 3: Methodology Flow — Comparative Conceptual Study"),
+  h2("3.4 Analysis Techniques"),
+  p("Concepts drawn from the literature were organised under the four-pramana and five-member-syllogism framework, cross-checked across secondary sources for consistency of interpretation, and then applied to short illustrative scenarios in each of the four modern domains, summarised in the tables and figures presented in Chapter 4."),
+  h2("3.5 Ethical Considerations"),
+  p("As a literature-based conceptual study, the main obligation is accurate and respectful representation of a living philosophical and religious tradition. Nyaya concepts are presented on their own philosophical terms rather than flattened into a modern framework, and modern methods are described without claiming that ancient authors anticipated technologies they could not have foreseen; the comparisons drawn are offered as useful analogies, not as historical claims of direct influence."),
+  pageBreak(),
+];
+
+// ---------------------------------------------------------------
+// Chapter 4
+// ---------------------------------------------------------------
+const ch4 = [
+  h1("Chapter 4: Key Findings & Analysis"),
+  h2("4.1 Core Findings"),
+  p("The comparison shows that Nyaya logic and modern reasoning frameworks converge strongly on procedure even though they differ in vocabulary and metaphysical assumptions. Both insist that a claim be traceable to an observed or credible starting point, that any generalisation be tested against a concrete instance, and that a conclusion be open to challenge before it is treated as settled. Where they differ is scale and tooling: Nyaya debate was conducted by trained individuals working from memory and oral argument, while modern data analysis and fact-checking rely on large datasets, statistical tools, and networked verification — but the underlying discipline of tracing claim to evidence to tested conclusion is much the same."),
+  new Table({
+    width: { size: 9350, type: WidthType.DXA },
+    columnWidths: [3117, 3117, 3116],
+    rows: [
+      new TableRow({ tableHeader: true, children: [
+        tableCell("Reasoning Step", { header: true, width: 3117, shade: "DCE6F1" }),
+        tableCell("Nyaya (Panchavayava)", { header: true, width: 3117, shade: "DCE6F1" }),
+        tableCell("Modern Equivalent", { header: true, width: 3116, shade: "DCE6F1" }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("State the claim", { width: 3117 }), tableCell("Pratijna — the thesis proposed", { width: 3117 }),
+        tableCell("Hypothesis / headline claim", { width: 3116 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Give the reason", { width: 3117 }), tableCell("Hetu — the evidence or sign cited", { width: 3117 }),
+        tableCell("Supporting data or source", { width: 3116 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Cite a rule and example", { width: 3117 }), tableCell("Udaharana — general rule with a concrete case", { width: 3117 }),
+        tableCell("Statistical pattern or precedent", { width: 3116 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Apply the rule", { width: 3117 }), tableCell("Upanaya — connecting rule to the present case", { width: 3117 }),
+        tableCell("Model / method applied to new case", { width: 3116 }),
+      ]}),
+      new TableRow({ children: [
+        tableCell("Draw conclusion", { width: 3117 }), tableCell("Nigamana — conclusion re-affirmed", { width: 3117 }),
+        tableCell("Finding, verdict, or decision", { width: 3116 }),
+      ]}),
+    ],
+  }),
+  caption("Table 2: The Five-Membered Syllogism Mapped to a Modern Reasoning Workflow"),
+  h2("4.2 Data Interpretation and Insights"),
+  p("The two charts below present an illustrative, qualitative comparison rather than measured data, since no numerical scale exists in the primary sources for comparing classical and modern reasoning directly. They are included to visualise two consistent findings from the literature: first, that both traditions apply a comparably disciplined procedure once a claim is being tested (Figure 4); and second, that modern frameworks formally recognise a wider range of checks — such as automated cross-referencing and statistical confidence — than the four classical pramanas, even though the underlying categories of perception, inference, comparison, and testimony still map onto most of them (Figure 5)."),
+  imageParagraph("fig6_rigor_bar.png", 3800000, 2130000),
+  caption("Figure 4: Illustrative Rigor Comparison — Structured Reasoning Discipline"),
+  imageParagraph("fig7_scope_bar.png", 3800000, 2130000),
+  caption("Figure 5: Recognised Sources of Valid Knowledge (Illustrative Count)"),
+  h2("4.3 Comparison with Existing Literature and Wider Practices"),
+  p("Placing Nyaya alongside other classical Indian reasoning traditions reinforces the same pattern: the Buddhist logicians developed a parallel but distinct theory of inference centred on causal and identity relations, and the Mimamsa school developed its own detailed rules for interpreting testimony, particularly scriptural testimony. Across these schools, the shared instinct is the same one found in modern methodology: knowledge claims must be sourced, tested, and defended, not simply asserted."),
+  pageBreak(),
+];
+
+// ---------------------------------------------------------------
+// Chapter 5
+// ---------------------------------------------------------------
+const ch5 = [
+  h1("Chapter 5: Discussion & Implications"),
+  h2("5.1 Interpretation of Findings"),
+  p("The central implication of this comparison is that Nyaya's four pramanas and five-step syllogism function less like a historical curiosity and more like a general-purpose checklist for evaluating any claim, ancient or contemporary. Its emphasis on distinguishing observation from inference, requiring a concrete supporting instance, and subjecting conclusions to debate before acceptance addresses exactly the failure modes that undermine present-day reasoning: unverified claims presented as fact, patterns generalised from a single anecdote, and conclusions accepted without challenge."),
+  h2("5.2 Implications for Industry, Society, and Academia"),
+  bullet("Industry: Teams building AI and data systems can use the panchavayava structure as a template for explainable outputs — stating the claim, the evidence, the general rule, its application, and the conclusion in that order."),
+  bullet("Society: Media literacy and fact-checking initiatives can adapt the pratyaksha–anumana–shabda distinction to teach the public to separate what was directly observed from what was inferred or merely reported."),
+  bullet("Academia: Logic, philosophy, and even data-science curricula can use Nyaya as a non-Western case study in formal and applied reasoning, alongside Aristotelian and modern symbolic logic."),
+  h2("5.3 Applying Nyaya Reasoning to Present-Day Contexts"),
+  p("Data analysis. The pramana distinction between pratyaksha (direct observation) and anumana (inference) maps cleanly onto the difference between raw data and a derived conclusion. A Nyaya-influenced discipline would require an analyst to state which figures were directly measured, which were inferred through a model or statistical method, and which rule (udaharana) justifies extending a pattern from the sample to the wider population — making assumptions explicit rather than buried inside a chart or a model output."),
+  p("Fake news verification. Shabda, or testimony, was never accepted uncritically in Nyaya thought; the reliability of the speaker was itself a condition for testimony to count as valid knowledge. Applied to online content, this suggests a workable checklist: identify the original source of a claim, assess whether that source has a track record of reliability, check whether the claim is corroborated by independent perception or testimony, and treat unattributed or single-source claims with the same caution Nyaya reserves for an unreliable witness."),
+  p("Ethical decision-making. The debate procedure (vada), which required a position to survive structured cross-examination by an opponent arguing in good faith, offers a model for ethical deliberation: a proposed course of action is treated as a thesis (pratijna) that must be defended with reasons (hetu) and tested against counter-examples before being adopted, rather than settled by intuition or authority alone."),
+  p("Responsible digital systems. The doctrine of hetvabhasa — naming specific ways an inference can fail — is a natural template for auditing automated decision systems: checking whether a system's stated reason for a decision is actually present in the cases it was trained on, whether it also occurs in cases where the outcome does not hold, and whether the reasoning behind an output can be traced back to an example, rather than existing only as an opaque statistical association."),
+  imageParagraph("fig9_swot.png", 5000000, 3330000),
+  caption("Figure 6: SWOT Diagram — Nyaya Logic in Present-Day Application"),
+  imageParagraph("fig10_stakeholder.png", 4600000, 3740000),
+  caption("Figure 7: Stakeholder Map — Applying Nyaya Reasoning Today"),
+  h2("5.4 Challenges and Limitations Encountered"),
+  p("The principal limitation of this study is its reliance on English-language secondary literature rather than direct engagement with Sanskrit primary texts, meaning some of the technical precision of Navya-Nyaya's definitional method could not be fully represented. The mapping of classical categories onto modern domains is offered as a useful analogy for teaching and application, not as a claim that classical authors anticipated modern data science or digital ethics."),
+  h2("5.5 Future Research Directions"),
+  bullet("Detailed translation work making Navya-Nyaya's technical definitional method accessible for use in formal knowledge-representation and explainable-AI research."),
+  bullet("Empirical classroom studies testing whether teaching the panchavayava structure improves students' everyday argument evaluation and fact-checking skills."),
+  bullet("Structured application of the hetvabhasa fallacy catalogue as a checklist for auditing automated decision systems."),
+  pageBreak(),
+];
+
+// ---------------------------------------------------------------
+// Chapter 6
+// ---------------------------------------------------------------
+const ch6 = [
+  h1("Chapter 6: Conclusion & Recommendations"),
+  h2("6.1 Summary of the Research"),
+  p("This assignment examined the Nyaya tradition's account of observation (pratyaksha), inference (anumana), debate (vada), and evidence (pramana generally) from its origin in Gautama's Nyaya Sutra through its technical refinement in Navya-Nyaya, and compared this classical framework with the practical demands of present-day reasoning. The comparison showed that Nyaya and modern reasoning differ chiefly in scale and tooling rather than in underlying principle — both require that a claim be traceable to a credible starting point, tested against a concrete case, and open to challenge before acceptance."),
+  h2("6.2 Key Conclusions Drawn"),
+  bullet("The four pramanas provide a durable, general-purpose classification of how knowledge claims can be justified, still directly applicable to evaluating data, sources, and reported information."),
+  bullet("The five-membered syllogism offers a ready-made template for structuring a defensible argument or an explainable system output: claim, evidence, rule, application, conclusion."),
+  bullet("The doctrine of hetvabhasa anticipates, in classical form, the modern practice of naming specific fallacies and failure modes, and can be adapted as an audit checklist for both human arguments and automated systems."),
+  new Table({
+    width: { size: 9350, type: WidthType.DXA },
+    columnWidths: [2600, 1350, 1350, 1350, 1350, 1350],
+    rows: [
+      new TableRow({ tableHeader: true, children: [
+        tableCell("Criterion", { header: true, width: 2600, shade: "DCE6F1" }),
+        tableCell("Weight", { header: true, width: 1350, shade: "DCE6F1" }),
+        tableCell("Nyaya Score (1-5)", { header: true, width: 1350, shade: "DCE6F1" }),
+        tableCell("Modern Score (1-5)", { header: true, width: 1350, shade: "DCE6F1" }),
+        tableCell("Weighted Nyaya", { header: true, width: 1350, shade: "DCE6F1" }),
+        tableCell("Weighted Modern", { header: true, width: 1350, shade: "DCE6F1" }),
+      ]}),
+      new TableRow({ children: [tableCell("Conceptual rigor",{width:2600}),tableCell("3",{width:1350}),tableCell("5",{width:1350}),tableCell("4",{width:1350}),tableCell("15",{width:1350}),tableCell("12",{width:1350})]}),
+      new TableRow({ children: [tableCell("Scalability to large data",{width:2600}),tableCell("2",{width:1350}),tableCell("2",{width:1350}),tableCell("5",{width:1350}),tableCell("4",{width:1350}),tableCell("10",{width:1350})]}),
+      new TableRow({ children: [tableCell("Explainability of conclusion",{width:2600}),tableCell("3",{width:1350}),tableCell("5",{width:1350}),tableCell("3",{width:1350}),tableCell("15",{width:1350}),tableCell("9",{width:1350})]}),
+      new TableRow({ children: [tableCell("Built-in bias/fallacy checks",{width:2600}),tableCell("2",{width:1350}),tableCell("4",{width:1350}),tableCell("3",{width:1350}),tableCell("8",{width:1350}),tableCell("6",{width:1350})]}),
+      new TableRow({ children: [tableCell("Speed of verification",{width:2600}),tableCell("2",{width:1350}),tableCell("2",{width:1350}),tableCell("5",{width:1350}),tableCell("4",{width:1350}),tableCell("10",{width:1350})]}),
+      new TableRow({ children: [
+        tableCell("Total", { header: true, width: 2600, shade: "F2F2F2" }),
+        tableCell("-", { header: true, width: 1350, shade: "F2F2F2" }),
+        tableCell("-", { header: true, width: 1350, shade: "F2F2F2" }),
+        tableCell("-", { header: true, width: 1350, shade: "F2F2F2" }),
+        tableCell("46", { header: true, width: 1350, shade: "F2F2F2" }),
+        tableCell("47", { header: true, width: 1350, shade: "F2F2F2" }),
+      ]}),
+    ],
+  }),
+  caption("Table 3: Weighted Decision Matrix — Nyaya vs. Modern Reasoning Scoring (Illustrative)"),
+  imageParagraph("fig12_decision_framework.png", 5000000, 3330000),
+  caption("Figure 8: Summary Decision Framework — Evaluating a Claim"),
+  h2("6.3 Actionable Recommendations"),
+  bullet("Adopt the panchavayava (claim-evidence-rule-application-conclusion) structure as a template when writing up data-analysis findings or explaining an automated decision."),
+  bullet("Teach the four pramanas as a media-literacy checklist for distinguishing observed fact, inference, analogy, and testimony in online content."),
+  bullet("Build a hetvabhasa-style fallacy checklist into review processes for AI systems and public arguments alike."),
+  bullet("Incorporate Nyaya logic as a case study in critical-thinking, philosophy, and data-ethics curricula alongside Western logical traditions."),
+  h2("6.4 Final Reflections"),
+  p("The Nyaya tradition was not a primitive precursor awaiting replacement by modern logic; it was a sophisticated, independently developed system for testing claims through observation, inference, structured debate, and evidence. Present-day efforts to improve data literacy, curb misinformation, sharpen ethical reasoning, and build accountable digital systems stand to gain by treating Nyaya as a working framework rather than a historical footnote."),
+  h2("6.5 Call to Action"),
+  p("Students, educators, and practitioners working on critical thinking, journalism, ethics, or AI system design are encouraged to study the panchavayava and pramana frameworks directly from accessible translations and to experiment with applying them as practical checklists in their own analytical, verification, or design work, rather than treating classical Indian logic as a subject confined to philosophy departments."),
+];
+
+// ---------------------------------------------------------------
+// References
+// ---------------------------------------------------------------
+const references = [
+  h1("References"),
+  p("Chakrabarti, K. K. (2010). Classical Indian Philosophy of Induction: The Nyaya Viewpoint. Lexington Books."),
+  p("Matilal, B. K. (1998). The Character of Logic in India. State University of New York Press."),
+  p("Phillips, S. H. (2012). Epistemology in Classical India: The Knowledge Sources of the Nyaya School. Routledge."),
+  p("Potter, K. H. (Ed.). (1977). Encyclopedia of Indian Philosophies, Vol. 2: Indian Metaphysics and Epistemology — The Tradition of Nyaya-Vaisesika up to Gangesa. Princeton University Press."),
+  p("Ganeri, J. (2001). Philosophy in Classical India: The Proper Work of Reason. Routledge."),
+  p("Vidyabhusana, S. C. (1921). A History of Indian Logic: Ancient, Mediaeval and Modern Schools. University of Calcutta."),
+];
+
+// ---------------------------------------------------------------
+// Appendix
+// ---------------------------------------------------------------
+const appendix = [
+  pageBreak(),
+  h1("Appendix"),
+  h2("A. Glossary of Key Sanskrit Terms"),
+  bullet("Pramana — a valid means of knowledge."),
+  bullet("Pratyaksha — perception; direct sensory observation."),
+  bullet("Anumana — inference; reasoning from a sign to a conclusion."),
+  bullet("Upamana — comparison; knowledge gained through analogy."),
+  bullet("Shabda — testimony; knowledge from a reliable verbal source."),
+  bullet("Vada — honest philosophical debate aimed at establishing truth."),
+  bullet("Hetvabhasa — a fallacious or pseudo-reason in an inference."),
+  bullet("Panchavayava — the five-membered structure of a complete syllogism."),
+  h2("B. Division of Work Among Group Members"),
+  bullet("Member 1: Chapter 1 — Introduction & Background."),
+  bullet("Member 2: Chapter 2 — Literature Review & Theoretical Framework."),
+  bullet("Member 3: Chapter 3 — Methodology & Approach."),
+  bullet("Member 4: Chapter 4 — Key Findings & Analysis."),
+  bullet("Member 5: Chapter 5 — Discussion & Implications."),
+  bullet("Member 6: Chapter 6 — Conclusion & Recommendations."),
+];
+
+// ---------------------------------------------------------------
+// Document assembly
+// ---------------------------------------------------------------
+const doc = new Document({
+  numbering: {
+    config: [
+      {
+        reference: "bullets",
+        levels: [
+          { level: 0, format: LevelFormat.BULLET, text: "\u2022", alignment: AlignmentType.LEFT,
+            style: { paragraph: { indent: { left: 720, hanging: 360 } } } },
+        ],
+      },
+    ],
+  },
+  styles: {
+    default: {
+      document: { run: { font: "Calibri", size: 22 } },
+    },
+  },
+  sections: [
+    {
+      properties: {
+        page: {
+          size: { width: 12240, height: 15840 },
+          margin: { top: 1080, bottom: 1080, left: 1080, right: 1080 },
+        },
+      },
+      headers: {
+        default: new Header({
+          children: [new Paragraph({
+            alignment: AlignmentType.RIGHT,
+            children: [new TextRun({ text: "IKS Group Assignment — Nyaya Logic", size: 16, color: GREY, italics: true })],
+          })],
+        }),
+      },
+      footers: {
+        default: new Footer({
+          children: [new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ children: [PageNumber.CURRENT], size: 18 })],
+          })],
+        }),
+      },
+      children: [
+        ...titlePage,
+        pageBreak(),
+        ...toc,
+        ...ch1,
+        ...ch2,
+        ...ch3,
+        ...ch4,
+        ...ch5,
+        ...ch6,
+        pageBreak(),
+        ...references,
+        ...appendix,
+      ],
+    },
+  ],
+});
+
+Packer.toBuffer(doc).then((buffer) => {
+  fs.writeFileSync("/home/claude/nyaya/IKS_Group_Assignment_Nyaya_Logic.docx", buffer);
+  console.log("written");
+});
+
+
+</script>
+</body>
+</html>
