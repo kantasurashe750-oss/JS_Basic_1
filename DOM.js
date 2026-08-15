@@ -110,8 +110,124 @@
 // });
 // console.log(title);
 
-let button=document.querySelector("#btn");
-button.addEventListener("click",function(){
-   console.log("Button clicked!");
+// let button=document.querySelector("#btn");
+// button.addEventListener("click",function(){
+//    console.log("Button clicked!");
    
+// });
+
+
+// let title = document.querySelector("#title");
+// let button = document.querySelector("#btn");
+
+// button.addEventListener("click", () => {
+//     title.textContent="Welcome to Javascript";
+//     title.style.color = "red";
+//     title.style.fontSize = "40px";
+// });
+
+// let title=document.querySelector("#title");
+// let message1=document.querySelector(".message");
+// let tempid=document.querySelector("#btn");
+
+// tempid.addEventListener("click",()=>{
+//   title.textContent="button was clicked!";
+//   title.style.color="blue";
+//   title.style.fontSize="40px";
+//   title.textContent="javascript is Amazing";
+// });
+
+// let button=document.querySelector("#nameBtn");
+// let tempid=document.querySelector("#name");
+
+// tempid.addEventListener("click",()=>{
+//   tempid.textContent=="Dnyaneshwar";
+// });
+
+// let button=document.querySelector("#btn");
+//  button.addEventListener("click",(event)=>{
+//    console.log(event);
+//    console.log(event.type);
+//    console.log(event.target);
+   
+// });
+
+//Key Event
+// let button=document.querySelector("#btn");
+// button.addEventListener("click",(event)=>{
+//    console.log(event);
+//    console.log(event.key);
+//    console.log(event.code); 
+//    if(event.key === "arrow Up"){
+//     console.log("moving up");
+//    }
+
+// });
+
+// let username=document.querySelector("#username");
+// let output=document.querySelector("#output");
+
+// username.addEventListener("input",()=>{
+//   output.textContent=username.value;
+// });
+
+// let temp=document.querySelector("#name");
+// let message=document.querySelector("#message");
+
+// temp.addEventListener("input",()=>{
+//    message.textContent=`hello ${temp.value}`;
+// });
+
+// let city1=document.querySelector("#city");
+// let result1=document.querySelector("#result");
+
+// city1.addEventListener("input",()=>{
+//   result1.textContent=`You live in ${city1.value}`;
+// });
+
+// let num = document.querySelector("#number");
+// let res = document.querySelector("#result");
+
+// num.addEventListener("input", () => {
+//     let value = Number(num.value);
+
+//     res.textContent = `Input: ${value * 2}`;
+// });
+
+//Form + Event Submit
+
+// let form=document.querySelector("#myForm");
+// let name=document.querySelector("#name");
+// let result=document.querySelector("#result");
+
+// form.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   result.textContent=`Hello ${name.value}`;
+// });
+
+
+
+
+// let Cform=document.querySelector("#cityForm");
+// let city=document.querySelector("#city");
+// let res=document.querySelector("#result");
+
+// Cform.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   res.textContent=`you live in ${city.value}`;
+// });
+
+
+let login=document.querySelector("#loginForm");
+let user=document.querySelector("#username");
+let result=document.querySelector("#result1");
+
+login.addEventListener("submit",(event)=>{
+  event.preventDefault();
+  if(user.value === ""){
+     result.textContent="please enter user name";
+  }else{
+    result.textContent=`welcome, ${user.value}`;
+     
+  }
 });
