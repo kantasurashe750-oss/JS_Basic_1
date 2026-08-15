@@ -82,9 +82,36 @@
 
 // console.log(classes);
 
-let students=document.querySelectorAll(".student");
- students.forEach((student)=>{
+// let students=document.querySelectorAll(".student");
+//  students.forEach((student)=>{
 
-     student.textContent=`${student.textContent } is learning javascript`;
+//      student.textContent=`${student.textContent } is learning javascript`;
+// });
+// console.log(students);
+
+// let title =document.querySelector("#title");
+// //title.style.color="red";
+// title.style.background="yellow";
+// title.style.fontSize="40px";
+
+//changin css with javascript
+
+// let title=document.querySelector("#title");
+// let paragrapgh=document.querySelector("#message");
+// title.style.color="red";
+// title.style.fontsize="40px";
+// paragrapgh.style.color="blue";
+// paragrapgh.style.backgroundxolor="yellow";
+
+// let title=document.querySelectorAll(".student");
+// title.forEach(element => {
+//    element.style.color="purple";
+//    element.style.fontsize="25px";
+// });
+// console.log(title);
+
+let button=document.querySelector("#btn");
+button.addEventListener("click",function(){
+   console.log("Button clicked!");
+   
 });
-console.log(students);
