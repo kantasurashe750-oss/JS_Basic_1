@@ -218,16 +218,123 @@
 // });
 
 
-let login=document.querySelector("#loginForm");
-let user=document.querySelector("#username");
-let result=document.querySelector("#result1");
+// let login=document.querySelector("#loginForm");
+// let user=document.querySelector("#username");
+// let result=document.querySelector("#result1");
 
-login.addEventListener("submit",(event)=>{
-  event.preventDefault();
-  if(user.value === ""){
-     result.textContent="please enter user name";
-  }else{
-    result.textContent=`welcome, ${user.value}`;
+// login.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   if(user.value === ""){
+//      result.textContent="please enter user name";
+//   }else{
+//     result.textContent=`welcome, ${user.value}`;
      
-  }
+//   }
+// });
+
+//Form Validation
+
+// let formIn =document.querySelector("#form");
+// let nameIn =document.querySelector("#name");
+// let emailIn =document.querySelector("#email");
+// let resultIn =document.querySelector("#result");
+
+// formIn.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   if(nameIn.value === "" || 
+//     emailIn.value === "" )
+//     {resultIn.textContent="please fill the form";
+//     }else{
+//       resultIn.textContent="form submiited successfully";
+//     }
+// });
+
+// let formIn =document.querySelector("#form");
+// let nameIn =document.querySelector("#name");
+// let ageIn =document.querySelector("#age");
+// let resultIn =document.querySelector("#result");
+
+// formIn.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   if(nameIn.value === "" || 
+//      ageIn.value === "" )
+//     {resultIn.textContent="please fill the form";
+//     }else if(Number(ageIn.value) < 18){
+//        resultIn.textContent="You must be age 18 or above";
+//     } else{
+//       resultIn.textContent="form submiited successfully";
+//     }
+// });
+
+
+// let formIn =document.querySelector("#form");
+// let nameIn =document.querySelector("#name");
+// let emailIn =document.querySelector("#email");
+// let ageIn =document.querySelector("#age");
+// let resultIn =document.querySelector("#result");
+
+// formIn.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   if(nameIn.value === "" ){
+//        resultIn.textContent="please enter your name";
+//     }else if(emailIn.value === "" ){
+//        resultIn.textContent=" please enter your email";
+//     }else if(ageIn.value === "" ){
+//       resultIn.textContent="Please enter your age "
+//     }else if (Number(ageIn.value) < 18){
+//        resultIn.textContent="You must be age 18 or above";
+//     } else{
+//       resultIn.textContent="form submiited successfully";
+//     }
+// });
+
+// let form=document.querySelector("#formIn");
+// let name=document.querySelector("nameIn");
+// let age=document.querySelector("#ageIn");
+// let city=document.querySelector("#cityIn");
+// let result=document.querySelector("#result");
+
+// form.addEventListener("submit", (event)=>{
+//  event.preventDefault();
+//  if(name.textContent === "" ||
+//     age.textContent === "" ||
+//     age.textContent === ""){
+//       result.textContent ="please fill the form";
+//     }else{
+//     result.textContent =`Welcome ${name.value}! You are live in ${age.value} and live in ${city.value}`;
+// }});
+
+//toggle()
+
+// let notice = document.querySelector("#notice");
+
+// notice.classList.add("important");
+
+// console.log(notice);
+
+// let notice = document.querySelector("#notice");
+
+// notice.classList.contains("important");
+
+// console.log(notice);
+
+  
+// let heading=document.querySelector("#heading");  
+// let button=document.querySelector("#btn");
+
+//  button.classList.toggle(".actvie");
+//  console.log(button);
+
+let nickname =document.querySelector("#nickname");
+let  saveBtn=document.querySelector("#saveBtn");
+let showbtn =document.querySelector("showBtn");
+let deletebtn =document.querySelector("#deleteBtn");
+let result =document.querySelector("#result");
+
+saveBtn.addEventListener('click',()=>{
+  localStorage.setItem("nickname",nickname.value);
+});
+
+showbtn.addEventListener('click',()=>{
+  
 });
