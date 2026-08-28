@@ -325,16 +325,127 @@
 //  button.classList.toggle(".actvie");
 //  console.log(button);
 
-let nickname =document.querySelector("#nickname");
-let  saveBtn=document.querySelector("#saveBtn");
-let showbtn =document.querySelector("showBtn");
-let deletebtn =document.querySelector("#deleteBtn");
-let result =document.querySelector("#result");
+//local storage 
 
-saveBtn.addEventListener('click',()=>{
-  localStorage.setItem("nickname",nickname.value);
-});
+// let nickname = document.querySelector("#nickname");
+// let saveBtn = document.querySelector("#saveBtn");
+// let showBtn = document.querySelector("#showBtn");
+// let deleteBtn = document.querySelector("#deleteBtn");
+// let result = document.querySelector("#result");
 
-showbtn.addEventListener('click',()=>{
+// saveBtn.addEventListener("click", () => {
+//     localStorage.setItem("nickname", nickname.value);
+// });
+
+// showBtn.addEventListener("click", () => {
+//     let savedName = localStorage.getItem("nickname");
+//     result.textContent = savedName;
+// });
+
+// deleteBtn.addEventListener("click", () => {
+//     localStorage.removeItem("nickname");
+//     result.textContent = "Nickname deleted";
+// });
+
+// let favFood = document.querySelector("#FavFood");
+// let saveFood = document.querySelector("#saveFood");
+// let result = document.querySelector("#result");
+
+// saveFood.addEventListener("click", () => {
+//     localStorage.setItem("favoriteFood", favFood.value);
+
+//     result.textContent = "Favorite food saved!";
+// });
+
+
+//JSON 
+// let movie = {
+//     title: "KGF",
+//     year: 2024,
+//     rating: 8.4
+// };
+
+// // Object → String
+// let movieData = JSON.stringify(movie);
+
+// console.log(movieData);
+
+// // Save
+// localStorage.setItem("movie", movieData);
+
+// // Get
+// let savedMovie = localStorage.getItem("movie");
+
+// // String → Object
+// let movieObject = JSON.parse(savedMovie);
+
+// console.log(movieObject.title);
+// console.log(movieObject.year);
+// console.log(movieObject.rating);      
+
+
+//CRUD operation
+
+
+// let books =[
+// ];
+
+// books.push({
   
-});
+//    title: "sign",
+//    author:"json trump",
+//    price: 200,
+  
+// });
+// books.push({
+//    title: "class",
+//    author:"jammy trump",
+//    price: 200,
+   
+// });
+// books.push({
+  
+//    title: "object",
+//    author:"jolly trump",
+//    price: 200,
+// });
+
+// console.log(books);
+
+// for(let book of books){
+//   console.log(`book: ${book.title} | Author: ${book.author} | price ${book.price}`);
+  
+// };
+
+
+// books[1].price=400;
+
+// books.splice(1,1);
+
+// console.log(books);
+
+//optional chaining?.
+// let employee = {
+//     name: "Tara",
+//     contact: {
+//         email: "tara@example.com"
+//     }
+// };
+
+// console.log(employee.contact?.email);
+// console.log(employee.contact?.phone);
+// delete employee.contact;
+// console.log(employee.contact?.email);
+
+//nullish chaining 
+
+let account = {
+    username: "Vihaan",
+    location: null
+};
+
+let accountType=account.location ?? "location not available";
+console.log(accountType);
+
+delete account.location;
+
