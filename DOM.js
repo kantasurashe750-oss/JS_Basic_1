@@ -439,13 +439,211 @@
 
 //nullish chaining 
 
-let account = {
-    username: "Vihaan",
-    location: null
-};
+// let account = {
+//     username: "Vihaan",
+//     location: null
+// };
 
-let accountType=account.location ?? "location not available";
-console.log(accountType);
+// let accountType=account.location ?? "location not available";
+// console.log(accountType);
 
-delete account.location;
+// delete account.location;
 
+// pomise 
+
+// let order = new Promise((resolve, reject) => {
+//     resolve("Order delivered!");
+// });
+
+// order.then((message) => {
+//     console.log(message);
+// });
+
+
+// let order1 = new Promise((resolve, reject)=>{
+//   resolve("payment succesfully done");
+// });
+
+// order1.then((message1)=>{
+//   console.log(message1);
+  
+// });
+
+//  async/wait
+// function getData(){
+//   return new Promise((resolve)=>{
+//     resolve("data recevied");
+//   })
+// }
+
+// async function showData() {
+//   let result= await getData();
+//   console.log(result);
+  
+// }
+
+// showData();
+
+// function getData(){
+//   return new Promise((resolve)=>{
+//     resolve("Data received")
+//   })
+// }
+
+// async function showData(){
+//   let result = await getData();
+//   console.log(result);
+  
+// }
+
+// showData();
+
+
+
+// async function loadData(){
+//   try{
+//     let result= await getData();
+//     console.log(result);
+    
+//   }catch(error){
+//     console.log("Somthing went wrong");
+    
+//   }
+// }
+
+
+//Fetch Data 
+
+// async function getData(){
+//   try {
+//     let response = await fetch("www.example.com/data");
+//     let data = await response.json();
+//     console.log(data);
+//   } catch (error) {
+//     console.log("someting went wrong");
+//   }
+// }
+
+// getData();
+
+// async function getData(){
+//   try{
+//     let response = await fetch("www.example.com/data");
+//     let data = await response.json();
+//     console.log(data);
+    
+//   }catch(error){
+//     console.log("something went wrong");
+    
+//   }
+// }
+
+// getData();
+
+// Fetch API + GET request
+
+// async function getpost(){
+//   try{
+//     let response = await fetch( "https://jsonplaceholder.typicode.com/posts");
+//     let data = await response.json();
+//     console.log(data);
+    
+//   }catch(error){
+//     console.log("something went wrong");
+    
+//   }
+// }
+
+// getpost();
+
+//Fetch API + DOM
+
+// let postscontainer =document.querySelector("#posts");
+
+// async function getData(){
+//   try{
+//     let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+//     let posts = await response.json();
+//     console.log(data);
+
+//     posts.forEach(post => {
+//       postscontainer.innerHTML += `<h3> ${post.title}</h3>
+//       <p>${post.body}</p>`;
+//     });
+    
+//   }catch(error){
+//     console.log("unable to load data");
+//   }
+// }
+
+// getData();
+
+// let postcontainer = document.querySelector("#posts");
+
+// async function getData(){
+//   try{
+//     let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+//     let posts = await response.json();
+//     console.log(posts);
+//      posts.forEach(post => {
+//       postcontainer.innerHTML += `
+//       <h3>${post.title}</h3>
+//       <p>${post.body}</p>`
+//      });
+
+    
+//   }catch(error){
+//     postcontainer.textContent  = `unable to server data`;
+//   }
+// }
+
+// getData();
+
+
+// let names =document.querySelector("#names");
+
+
+// async function loadData(){
+//   try{
+//     let response = await fetch("https://jsonplaceholder.typicode.com/users");
+//     let users = await response.json();
+   
+
+//     users.forEach(user => {
+//       names.innerHTML += `
+//       <h3>${names.name}</h3>
+//       <h3>${names.email}</h3>
+//       <h3>${names.city}</h3>`;
+//     });
+
+//   }catch(error){
+//     names.textContent =`unable to load server`;
+//   }
+// }
+
+// loadData();
+
+let names = document.querySelector("#names");
+
+async function loadData() {
+    try {
+        let response = await fetch(
+            "https://jsonplaceholder.typicode.com/users"
+        );
+
+        let users = await response.json();
+
+        users.forEach(user => {
+            names.innerHTML += `
+                <h3>${user.name}</h3>
+                <p>${user.email}</p>
+                <p>${user.address.city}</p>
+            `;
+        });
+
+    } catch (error) {
+        names.textContent = "Unable to load users";
+    }
+}
+
+loadData();
