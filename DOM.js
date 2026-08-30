@@ -623,27 +623,112 @@
 
 // loadData();
 
-let names = document.querySelector("#names");
+// let names = document.querySelector("#names");
 
-async function loadData() {
-    try {
-        let response = await fetch(
-            "https://jsonplaceholder.typicode.com/users"
-        );
+// async function loadData() {
+//     try {
+//         let response = await fetch(
+//             "https://jsonplaceholder.typicode.com/users"
+//         );
 
-        let users = await response.json();
+//         let users = await response.json();
 
-        users.forEach(user => {
-            names.innerHTML += `
-                <h3>${user.name}</h3>
-                <p>${user.email}</p>
-                <p>${user.address.city}</p>
-            `;
-        });
+//         users.forEach(user => {
+//             names.innerHTML += `
+//                 <h3>${user.name}</h3>
+//                 <p>${user.email}</p>
+//                 <p>${user.address.city}</p>
+//             `;
+//         });
 
-    } catch (error) {
-        names.textContent = "Unable to load users";
+//     } catch (error) {
+//         names.textContent = "Unable to load users";
+//     }
+// }
+
+// loadData();
+
+// let names =document.querySelector("#names");
+
+// async function loadData(){
+//     try{
+//         let response = await fetch ("https://jsonplaceholder.typicode.com/users");
+//             let users = await response.json();
+            
+//             users.forEach(user => {
+//                 names.innerHTML += `
+//                 <h3>${user.name}</h3>
+//                 <p>${user.email}</p>
+//                 <p>${user.address.city}</p>`;
+//             });
+    
+//     }catch(error){
+//         names.textContent=`Unable to load server`;
+    
+// }
+// }
+// loadData();
+
+//POST
+
+// async function createUser(){
+//     try{
+//         let response = await fetch("https://jsonplaceholder.typicode.com/users",
+//             {
+//                 method:"POST",
+//                 headers :{
+//                     "content-type" :"appication/json"
+//                 },
+//                 body: JSON.stringify({
+//                     name :"Aria",
+//                     email : "aria@example.com"
+//                 })
+//             }
+//         );
+        
+//         let data = await response.json();
+//         console.log(data);
+//     }catch(error){
+//         console.log("error",error);
+        
+//     }
+// }
+// createUser();
+
+
+//how the real website send data to server
+
+let registerForm = document.querySelector("#registerForm");
+let fullname = document.querySelector("#fullName");
+let emailaddress = document.querySelector("#emailAddress");
+let result = document.querySelector("#result");
+
+registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    let userData = {
+        name : fullname.value,
+        email : emailaddress.value
+    };
+
+    try{
+        let response = await fetch ("https://jsonplaceholder.typicode.com/users",
+            {
+                method : "POST",
+                headers :{
+                "content-type" : "application/json"
+            },
+            body : JSON.stringify(userData)
+        }
+);
+
+let data = await response.json();
+console.log(data);
+
+result.textContent = `account create succesfully`;
+    }catch(error){
+        result.textContent = `unable to load server`;
+        console.log("error:", error);
+        
     }
-}
-
-loadData();
+});
